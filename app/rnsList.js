@@ -54,13 +54,15 @@ export default class RNSList extends Component {
                     });
                 }
                 else {
-                    console.log(result);
-                    let channel = result.channel;
-                    let items = channel.filter((block, i) => {
-                        return block.item.title;
+                    let channel = result.rss.channel[0].item;
+                    let titles = [];
+                    channel.forEach(function(el, i){
+                        if(el.title != "undefined"){
+                            titles.push(el.title);
+                        }
                     });
                     self.setState({
-                        dataSource: self.state.dataSource.cloneWithRows(items)
+                        dataSource: self.state.dataSource.cloneWithRows(titles)
                     });
                 }
             });
