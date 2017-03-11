@@ -48,13 +48,21 @@ export default class RNSList extends Component {
             });
 
             parseString(res._bodyText, function(err, result){
-                let channel = result.channel;
-                let items = channel.filter((block, i) => {
-                    return block.item.title;
-                });
-                self.setState({
-                    dataSource: self.state.dataSource.cloneWithRows(items)
-                });
+                if(result.error){
+                    self.setState({
+                        dataSource: self.state.dataSource.cloneWithRows([result.error.$.message])
+                    });
+                }
+                else {
+                    console.log(result);
+                    let channel = result.channel;
+                    let items = channel.filter((block, i) => {
+                        return block.item.title;
+                    });
+                    self.setState({
+                        dataSource: self.state.dataSource.cloneWithRows(items)
+                    });
+                }
             });
         }
         else{
